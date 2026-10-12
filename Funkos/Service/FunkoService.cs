@@ -1,4 +1,5 @@
-﻿using Funkos.Models;
+﻿using CSharpFunctionalExtensions;
+using Funkos.Models;
 using Funkos.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -6,35 +7,41 @@ namespace Funkos.Service;
 
 public class FunkoService(IFunkoRepository repository) : IFunkoService
 {
-    public List<Funko> GetAll()
+    public Result<List<Funko>, string>  GetAll()
     {
         List<Funko> funkos = repository.GetAll();
-        return funkos;
+        
+        if(funkos.Count <= 0) return Result.Failure<List<Funko>, string>("No existen Funkos");
+        
+        return Result.Success<List<Funko>, string>(funkos);
     }
     
-    public Funko? GetById(long id)
+    public Result<Funko?, string> GetById(long id)
     {
+        if(id <= 0) return Result.Failure<Funko?, string>("El id no existe ");
+        
         Funko? funko = repository.GetById(id);
-        return funko;
+        return Result.Success<Funko?, string>(funko);
     }
     
-    public Funko Add(Funko  newFunko)
+    public Result<Funko, string> Add(Funko  newFunko)
     {
         Funko funko = repository.Create(newFunko);
-        return funko;
+        return Result.Success<Funko, string>(funko);
     }
     
-    public Funko? Update(long id, Funko updatedFunko)
+    public Result<Funko?, string> Update(long id, Funko updatedFunko)
     {
         Funko? funko = repository.Update(id, updatedFunko);
-        if (funko == null) throw new ArgumentException($"No existe el Funko");;
-        return funko;
+        if (funko == null) throw new ArgumentException($"No existe el Funko");
+        return Result.Success<Funko?, string>(funko);
     }
-    
-    public bool Delete(long id)
+
+    public Result<bool, string> Delete(long id)
     {
-        var eliminado =  repository.Delete(id);
-        return eliminado;
+        var eliminado = repository.Delete(id);
+        if (eliminado == false) return Result.Failure<bool, string>("No se ha podido eliminar el Funko");
+        return Result.Success<bool, string>(true);
     }
     
 }

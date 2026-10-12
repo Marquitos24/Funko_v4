@@ -1338,6 +1338,23 @@
           "build/netcoreapp3.1/NUnit3TestAdapter.targets": {}
         }
       },
+      "Scrutor/7.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
+          "Microsoft.Extensions.DependencyModel": "10.0.0"
+        },
+        "compile": {
+          "lib/net10.0/Scrutor.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Scrutor.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "System.Diagnostics.EventLog/10.0.12": {
         "type": "package",
         "compile": {
@@ -1369,7 +1386,8 @@
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "CSharpFunctionalExtensions": "3.7.0",
-          "Microsoft.AspNetCore.OpenApi": "10.0.12"
+          "Microsoft.AspNetCore.OpenApi": "10.0.12",
+          "Scrutor": "7.0.0"
         },
         "compile": {
           "bin/placeholder/Funkos.dll": {}
@@ -3319,6 +3337,30 @@
         "nunit3testadapter.5.0.0.nupkg.sha512",
         "nunit3testadapter.nuspec",
         "nunit_256.png"
+      ]
+    },
+    "Scrutor/7.0.0": {
+      "sha512": "wHWaroody48jnlLoq/REwUltIFLxplXyHTP+sttrc8P7+jkiVqf38afDidJNv4qgD/6zz2NKOYg06xLZ1bG7wQ==",
+      "type": "package",
+      "path": "scrutor/7.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net10.0/Scrutor.dll",
+        "lib/net10.0/Scrutor.pdb",
+        "lib/net10.0/Scrutor.xml",
+        "lib/net462/Scrutor.dll",
+        "lib/net462/Scrutor.pdb",
+        "lib/net462/Scrutor.xml",
+        "lib/net8.0/Scrutor.dll",
+        "lib/net8.0/Scrutor.pdb",
+        "lib/net8.0/Scrutor.xml",
+        "lib/netstandard2.0/Scrutor.dll",
+        "lib/netstandard2.0/Scrutor.pdb",
+        "lib/netstandard2.0/Scrutor.xml",
+        "scrutor.7.0.0.nupkg.sha512",
+        "scrutor.nuspec"
       ]
     },
     "System.Diagnostics.EventLog/10.0.12": {

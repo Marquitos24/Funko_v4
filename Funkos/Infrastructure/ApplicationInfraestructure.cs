@@ -1,7 +1,7 @@
 ﻿using Funkos.Repositories;
 using Funkos.Service;
 
-namespace Funkos.DI;
+namespace Funkos.Infrastructure;
 
 public static class ApplicationInfraestructure
 {

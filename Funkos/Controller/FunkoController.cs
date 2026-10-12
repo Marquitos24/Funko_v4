@@ -20,7 +20,7 @@ public class FunkoController(IFunkoService service) : ControllerBase
 
         try
         {
-            List<FunkosDtoResponse> dtos = resultado.Select(f => FunkoMapper.ToDtoResponse(f)).ToList();
+            List<FunkosDtoResponse> dtos = resultado.Value.Select(f => FunkoMapper.ToDtoResponse(f)).ToList();
 
             return Ok(dtos);
         }
@@ -38,8 +38,8 @@ public class FunkoController(IFunkoService service) : ControllerBase
         try
         {
             var funko = service.GetById(id);
-            if (funko is null) return NotFound($"No existe el id {id} de funko");
-            FunkosDtoResponse dto = FunkoMapper.ToDtoResponse(funko);
+            if (funko.Value is null) return NotFound($"No existe el id {id} de funko");
+            FunkosDtoResponse dto = FunkoMapper.ToDtoResponse(funko.Value);
 
             return Ok(dto);
         }
@@ -58,7 +58,7 @@ public class FunkoController(IFunkoService service) : ControllerBase
         {
             var creado = service.Add(request);
         
-            var response = FunkoMapper.ToDtoResponse(creado);
+            var response = FunkoMapper.ToDtoResponse(creado.Value);
         
             return CreatedAtAction(nameof(GetById), new { id = response.Id}, response  ) ;
         }
@@ -78,9 +78,9 @@ public class FunkoController(IFunkoService service) : ControllerBase
         {
             var actualizado = service.Update(id, funko);
 
-            if (actualizado is null) return NotFound("No es posible actualizar el funko");
+            if (actualizado.Value is null) return NotFound("No es posible actualizar el funko");
 
-            var response = FunkoMapper.ToDtoResponse(actualizado);
+            var response = FunkoMapper.ToDtoResponse(actualizado.Value);
 
             return Ok(response);
         }
@@ -91,15 +91,18 @@ public class FunkoController(IFunkoService service) : ControllerBase
     }
     
     [HttpDelete("{id:long}")]
-    public ActionResult Delete([FromRoute] long id)
+    public ActionResult<bool> Delete([FromRoute] long id)
     {
         try
         {
-            bool deleted = service.Delete(id);
+            var deleted = service.Delete(id);
+            
+            if (deleted.IsFailure)
+            {
+                return NotFound(deleted.Error); 
+            }
 
-            return deleted
-                ? Ok($"Funko con ID {id} eliminado")
-                : NotFound("NO se puede eliminar el funko");
+            return Ok($"Funko con ID {id} eliminado");
         }
         catch (Exception)
         {
